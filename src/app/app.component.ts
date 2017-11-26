@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
   songs = [];
   playingIndex = undefined;
   songItemClass = "";
+  playImage = "../assets/ic_play_arrow_black_24px.svg";
+  pauseImage = "../assets/ic_pause_black_24px.svg";
 
   ngOnInit() {
 
@@ -54,6 +56,14 @@ export class AppComponent implements OnInit {
       } else {
         this.songs[this.playingIndex].play();
       }
+    }
+  }
+
+  checkPauseState() {
+    if (this.playingIndex !== undefined) {
+      return this.songs[this.playingIndex].playing() ? this.pauseImage : this.playImage;
+    } else {
+      return this.playImage;
     }
   }
 }
