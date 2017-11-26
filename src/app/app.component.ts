@@ -27,13 +27,33 @@ export class AppComponent implements OnInit {
   }
 
   playSong(i) {
-    if (this.playingIndex !== undefined) this.songs[this.playingIndex].stop();
+    this.stopCurrent();
     this.playingIndex = i;
     this.songItemClass = "selected";
     this.songs[i].play();
   }
 
   checkSelected(i) {
-    if (this.playingIndex === i) return "selected";
+    return this.playingIndex === i ? "selected" : "";
+  }
+
+  stopCurrent() {
+    if (this.playingIndex !== undefined) {
+      this.songs[this.playingIndex].stop();
+      this.playingIndex = undefined;
+    }
+  }
+
+  togglePause() {
+    if (this.playingIndex === undefined) {
+      this.songs[0].play();
+      this.playingIndex = 0;
+    } else {
+      if (this.songs[this.playingIndex].playing()) {
+        this.songs[this.playingIndex].pause();
+      } else {
+        this.songs[this.playingIndex].play();
+      }
+    }
   }
 }
