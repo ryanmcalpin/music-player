@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
 
   songs = [];
   playingIndex = undefined;
-  songItemClass = "";
   playImage = "../assets/ic_play_arrow_black_24px.svg";
   pauseImage = "../assets/ic_pause_black_24px.svg";
 
@@ -22,6 +21,13 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < this.songPaths.length; i++) {
       let song = new Howl({
         src: [this.songPaths[i]],
+
+        onload: function() {
+          console.log(i + " loaded");
+        },
+        onplay: function() {
+          console.log(i + " playing");
+        }
       });
       this.songs.push(song);
     }
@@ -31,7 +37,6 @@ export class AppComponent implements OnInit {
   playSong(i) {
     this.stopCurrent();
     this.playingIndex = i;
-    this.songItemClass = "selected";
     this.songs[i].play();
   }
 
@@ -48,8 +53,8 @@ export class AppComponent implements OnInit {
 
   togglePause() {
     if (this.playingIndex === undefined) {
-      this.songs[0].play();
       this.playingIndex = 0;
+      this.songs[0].play();
     } else {
       if (this.songs[this.playingIndex].playing()) {
         this.songs[this.playingIndex].pause();
@@ -59,9 +64,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  checkPauseState() {
+  checkPauseState(): string {
+    console.log('checkPauseState()')
+    // if there is a focused song
     if (this.playingIndex !== undefined) {
-      return this.songs[this.playingIndex].playing() ? this.pauseImage : this.playImage;
+      // return image based on song state
+      if (!this.songs[this.playingIndex].playing()) {
+        return this.playImage;
+      }
+
+      return this.pauseImage;
+
+      // no focus
     } else {
       return this.playImage;
     }

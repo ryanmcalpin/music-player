@@ -1,0 +1,13 @@
+.inline {
+  h1 {
+    display: inline-block;
+    margin-right: 16px;
+  }
+
+  img {
+    border: 1px solid grey;
+  }
+  img:hover {
+    background-color: lighten(lightgrey, 10);
+  }
+}
