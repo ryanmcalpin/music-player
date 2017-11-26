@@ -1,5 +1,5 @@
 <h1>Music Player</h1>
 
 <div *ngFor="let song of songs; index as i">
-  <h3 (click)="playSong(i)" class="clickable">{{songPaths[i]}}</h3>
+  <h3 (click)="playSong(i)" class="clickable" [ngClass]="checkSelected(i)">{{songPaths[i]}}</h3>
 </div>

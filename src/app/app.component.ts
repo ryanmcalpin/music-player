@@ -13,15 +13,9 @@ export class AppComponent implements OnInit {
 
   songs = [];
   playingIndex = undefined;
+  songItemClass = "";
 
   ngOnInit() {
-    // this.songPaths.forEach(function(path) {
-    //   let song = new Howl({
-    //     src: [path]
-    //   })
-    //   this.songs.push(song)
-    // })
-
 
     for (let i = 0; i < this.songPaths.length; i++) {
       let song = new Howl({
@@ -32,10 +26,14 @@ export class AppComponent implements OnInit {
 
   }
 
-
-  playSong(i){
+  playSong(i) {
     if (this.playingIndex !== undefined) this.songs[this.playingIndex].stop();
     this.playingIndex = i;
+    this.songItemClass = "selected";
     this.songs[i].play();
+  }
+
+  checkSelected(i) {
+    if (this.playingIndex === i) return "selected";
   }
 }
