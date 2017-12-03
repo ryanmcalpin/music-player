@@ -9,7 +9,7 @@ import { Howl } from 'howler';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  songPaths = ["assets/A1 Wake_320kbps.mp3", "assets/A2 Rorschach_320kbps.mp3", "assets/A3 Empiricist_320kbps.mp3", "assets/A4 Algernon_320kbps.mp3"];
+  songPaths = ["assets/juicy_snare.mp3", "assets/A1 Wake_320kbps.mp3", "assets/A2 Rorschach_320kbps.mp3", "assets/A3 Empiricist_320kbps.mp3", "assets/A4 Algernon_320kbps.mp3"];
 
   songs = [];
   playingIndex = undefined;
@@ -27,6 +27,9 @@ export class AppComponent implements OnInit {
         },
         onplay: function() {
           console.log(i + " playing");
+        },
+        onend: function() {
+          console.log(i + " ended");
         }
       });
       this.songs.push(song);
@@ -38,6 +41,13 @@ export class AppComponent implements OnInit {
     this.stopCurrent();
     this.playingIndex = i;
     this.songs[i].play();
+
+    let nextSong = i < this.songs.length - 1 ? this.songs[i + 1] : null;
+
+
+    this.songs[i].once('end', function() {
+      nextSong.play();
+    })
   }
 
   checkSelected(i) {
@@ -46,7 +56,7 @@ export class AppComponent implements OnInit {
 
   stopCurrent() {
     if (this.playingIndex !== undefined) {
-      this.songs[this.playingIndex].stop();
+      this.songs.forEach(e => e.stop());
       this.playingIndex = undefined;
     }
   }
